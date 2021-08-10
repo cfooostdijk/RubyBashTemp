@@ -2,10 +2,6 @@ require 'tmpdir'
 
 class Folders
 
-  def initialize
-    @persisted = Persisted.new
-  end
-
   def create_folder(name, current_user) # Only Super User
     return puts "Folder exist" if Dir.exist?(name)
     if current_user[2] == 'Super'
