@@ -1,3 +1,0 @@
-["Ozita", "Read", "Read_only"]
-["Pipito", "Read", "Read_only"]
-["Juan", "Read", "Read_only"]

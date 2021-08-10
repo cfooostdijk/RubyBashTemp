@@ -13,7 +13,7 @@ class Folders
       elsif text == "yes"
         Dir.mkdir(name)
       else
-        puts "puto"
+        puts "It's a Yes or No question"
       end
     else
       puts 'Not authorized'
