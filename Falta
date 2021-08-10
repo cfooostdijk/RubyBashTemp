@@ -1,0 +1,13 @@
+Hacer archivos temporales
+
+Arreglar desafio que me mandaron:
+
+Super => lee, crea y borra archivos; crea y borra carpetas; crea y borra users, y cambia su pw.
+Regular => lee y crea archivos; cambia su pw.
+Read_only => lee archivos.
+
+Agregue un change_session para hacer mas versatil.
+Agregue un ls_users, para visualizar los users que hay.
+Agregue un help, que funciona con un readme, para indicar comandos.
+
+Incorpore unos rescue, para mejor manejo de errores.
