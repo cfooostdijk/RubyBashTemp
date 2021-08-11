@@ -4,11 +4,11 @@ RS = 'Super'
 RR = 'Regular'
 RRe = 'Read_only'
 USER_FILE = 'Users.txt'
-PATH = Dir.pwd
 
 class Users
 
-  def login # Public
+  # Public
+  def login
     puts 'Write name and password'
     name, password = gets.split.map(&:to_s)
     if name == NAME && password == PASSWORD
@@ -21,10 +21,11 @@ class Users
     puts
     @current_user = [name, password, role]
   end
-   
-  def create_user(name, user_list) # Only Super User
-    return puts "Can't be blank" if name.nil?
-    return puts "Not authorized" if @current_user[2] != RS
+  
+  # Only Super User
+  def create_user(name, user_list)
+    return puts BLANK if name.nil?
+    return puts NOT if @current_user[2] != RS
     if @current_user[2] == RS
       puts "Persist files? (yes or no)" 
       text = gets.chomp
@@ -38,35 +39,40 @@ class Users
       end
     end
   end
-
-  def update_password(name) # Only Super and Regular Users
-    return puts "Can't be blank" if name.nil?
-    return puts "Not authorized" if @current_user[2] == RRe
+  
+  # Only Super and Regular Users
+  def update_password(name)
+    return puts BLANK if name.nil?
+    return puts NOT if @current_user[2] == RRe
     @current_user[1] = name if @current_user[2] != RRe
     puts "New password: #{@current_user[1]}"
   end
 
-  def ls_users(user_list) # Public
+  # Public
+  def ls_users(user_list)
     user_list.each do |elements|
       puts elements.inspect
     end
   end
 
+  # Public
   def who_am_i # Public
     puts "Current user is: #{@current_user}"
   end
 
-  def destroy_user(name, user_list) # Only Super User
-    return puts "Can't be blank" if name.nil?
-    return puts "Not authorized" if @current_user[2] != RS
+  # Only Super User
+  def destroy_user(name, user_list)
+    return puts BLANK if name.nil?
+    return puts NOT if @current_user[2] != RS
     user_list.delete_if {|x,*_| x == "#{name}"} if @current_user[2] == RS
   end
 
-  def utemp(name, user_list) # Internal User
+  # Internal Use
+  def utemp(name, user_list)
     new_user = [name, 'Read', RRe]
     user_list = user_list.push(new_user)
     file = Tempfile.new(USER_FILE, PATH)
-    file.write("#{user_list}")
+    file.write(user_list)
     file.rewind
   end
 end

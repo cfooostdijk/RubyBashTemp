@@ -1,11 +1,13 @@
 require 'tmpdir'
 
+PATH = Dir.pwd
+
 class Folders
 
   # Only Super User
   def create_folder(name, current_user)
     return puts "Folder exist" if Dir.exist?(name)
-    return puts "Not authorized" if current_user[2] != RS
+    return puts NOT if current_user[2] != RS
     if current_user[2] == 'Super'
       Dir.mkdir("temp") unless Dir.exist?("temp")
       puts "Persist files? (yes or no)" 
@@ -19,7 +21,7 @@ class Folders
       end
     end
     rescue TypeError
-      puts "Can't be blank"
+      puts BLANK
   end
   
   # Public
@@ -27,7 +29,7 @@ class Folders
     return puts "Folder doesn't exist" unless Dir.exist?(name)
     Dir.chdir(name)
     rescue TypeError
-      puts "Can't be blank"
+      puts BLANK
   end
 
   # Public
@@ -48,9 +50,9 @@ class Folders
   # Only Super User
   def destroy_folder(name, current_user)
     return puts "Folder doesn't exist" unless Dir.exist?(name)
-    return puts "Not authorized" if current_user[2] != RS
+    return puts NOT if current_user[2] != RS
     Dir.delete(name)
     rescue TypeError
-      puts "Can't be blank"
+      puts BLANK
   end
 end
