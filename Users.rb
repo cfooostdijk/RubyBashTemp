@@ -20,17 +20,15 @@ class Users
   def create_user(name, user_list)
     return puts BLANK if name.nil?
     return puts NOT if @current_user[2] != RS
-    if @current_user[2] == RS
-      puts "Persist files? (yes or no)" 
-      text = gets.chomp
-      return puts "It's a Yes or No question" unless text != "yes" || text != "no"
-      if text == "no"
-        self.utemp(name, user_list)
-      else
-        new_user = [name, RePW, RRe]
-        user_list = user_list.push(new_user)
-        File.open(USER_FILE, 'a+') { |f| f << "#{new_user}\n" }
-      end
+    puts "Persist files? (yes or no)" 
+    text = gets.chomp
+    return puts "It's a Yes or No question" unless text != "yes" || text != "no"
+    if text == "no"
+      self.utemp(name, user_list)
+    else
+      new_user = [name, RePW, RRe]
+      user_list = user_list.push(new_user)
+      File.open(USER_FILE, 'a+') { |f| f << "#{new_user}\n" }
     end
   end
   

@@ -11,11 +11,11 @@ class Files
   def create_file(name, current_user)
     return puts "File exist" if File.exist?(name)
     return puts NOT if current_user[2] == RRe
+    puts "Write file content"
+    content = gets.chomp
     puts "Persist files? (yes or no)" 
     text = gets.chomp
     return puts "It's a Yes or No question" unless text != "yes" || text != "no"
-    puts "Write file content"
-    content = gets.chomp
     if text == "no"
       self.ftemp(name, content)
     else
