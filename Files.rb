@@ -21,6 +21,8 @@ class Files
     else
       File.open(name, "w") { |f| f << content }   
     end
+  rescue TypeError
+    puts BLANK
   end
 
   # Public
@@ -46,6 +48,8 @@ class Files
     return puts "File doesn't exist" unless File.exist?(name)
     return puts NOT if current_user[2] != RS
     File.delete(name) 
+  rescue TypeError
+    puts BLANK
   end
 
   # Public
