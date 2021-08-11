@@ -10,13 +10,13 @@ class Files
   # Only Super and Regular Users
   def create_file(name, current_user)
     return puts "File exist" if File.exist?(name)
-    return puts NOT if current_user[2] == RRe
+    return puts NOT if current_user[2] .eql? RRe
     puts "Write file content"
     content = gets.chomp
     puts "Persist files? (yes or no)" 
     text = gets.chomp
     return puts "It's a Yes or No question" unless text != "yes" || text != "no"
-    if text == "no"
+    if text .eql? "no"
       self.ftemp(name, content)
     else
       File.open(name, "w") { |f| f << content }   
@@ -28,8 +28,8 @@ class Files
   # Public
   def show(name)
     File.foreach(name) { |line| puts line }
-    rescue Errno::ENOENT
-      puts "Error"
+  rescue TypeError
+    puts BLANK
   end
 
   # Public
@@ -39,8 +39,8 @@ class Files
     puts "Size file: #{ File.new(name).size } bytes"
     uid = File.stat(name).uid
     puts "Owner name: #{ Etc.getpwuid(uid).name }"
-    rescue Errno::ENOENT
-      puts "Error"
+  rescue TypeError
+    puts BLANK
   end
 
   # Only Super User

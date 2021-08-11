@@ -12,7 +12,7 @@ class Folders
     puts "Persist files? (yes or no)" 
     text = gets.chomp
     return puts "It's a Yes or No question" unless text != "yes" || text != "no"
-    if text == "no"
+    if text .eql? "no"
       Dir.mktmpdir(name, "./temp")
     else
       Dir.mkdir(name)

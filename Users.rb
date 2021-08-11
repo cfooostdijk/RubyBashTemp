@@ -11,8 +11,8 @@ class Users
   def login
     puts 'Write name and password'
     name, password = gets.split.map(&:to_s)
-    role = RR unless password == SPW
-    role = RS if password == SPW
+    role = RR unless password .eql? SPW
+    role = RS if password .eql? SPW
     @current_user = [name, password, role]
   end
   
@@ -23,7 +23,7 @@ class Users
     puts "Persist files? (yes or no)" 
     text = gets.chomp
     return puts "It's a Yes or No question" unless text != "yes" || text != "no"
-    if text == "no"
+    if text .eql? "no"
       self.utemp(name, user_list)
     else
       new_user = [name, RePW, RRe]
@@ -35,7 +35,7 @@ class Users
   # Only Super and Regular Users
   def update_password(name)
     return puts BLANK if name.nil?
-    return puts NOT if @current_user[2] == RRe
+    return puts NOT if @current_user[2] .eql? RRe
     @current_user[1] = name if @current_user[2] != RRe
     puts "New password: #{@current_user[1]}"
   end
@@ -56,7 +56,7 @@ class Users
   def destroy_user(name, user_list)
     return puts BLANK if name.nil?
     return puts NOT if @current_user[2] != RS
-    user_list.delete_if {|x,*_| x == "#{name}"} if @current_user[2] == RS
+    user_list.delete_if {|x,*_| x .eql? "#{name}"} if @current_user[2] == RS
   end
 
   # Internal Use
