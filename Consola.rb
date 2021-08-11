@@ -1,6 +1,6 @@
-require "./Users.rb"
-require "./Files.rb"
-require "./Folders.rb"
+require './Users.rb'
+require './Files.rb'
+require './Folders.rb'
 
 system('clear')
 

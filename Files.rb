@@ -1,8 +1,8 @@
-require "./Users.rb" 
+require './Users.rb'
 require 'tempfile'
-require "etc"
+require 'etc'
 
-PATH = "/home/jesica/Desktop/RubyBashTemp/" # Path from local
+PATH = Dir.pwd
 
 class Files
 
