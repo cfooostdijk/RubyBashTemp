@@ -16,6 +16,7 @@ class Console
 
     user_list = Array.new {Array.new(3)}
     current_user = @users.login
+    puts
 
     loop do
 

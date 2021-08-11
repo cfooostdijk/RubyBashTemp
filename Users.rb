@@ -1,5 +1,5 @@
-NAME = 'Cris'
-PASSWORD = 'Cris'
+SPW= 'LittlePadawan'
+RePW = 'Read'
 RS = 'Super'
 RR = 'Regular'
 RRe = 'Read_only'
@@ -11,14 +11,8 @@ class Users
   def login
     puts 'Write name and password'
     name, password = gets.split.map(&:to_s)
-    if name == NAME && password == PASSWORD
-      role = RS
-    elsif password == 'Read'
-      role = RRe
-    else
-      role = RR
-    end
-    puts
+    role = RR unless password == SPW
+    role = RS if password == SPW
     @current_user = [name, password, role]
   end
   
@@ -33,7 +27,7 @@ class Users
       if text == "no"
         self.utemp(name, user_list)
       else
-        new_user = [name, 'Read', RRe]
+        new_user = [name, RePW, RRe]
         user_list = user_list.push(new_user)
         File.open(USER_FILE, 'a+') { |f| f << "#{new_user}\n" }
       end
