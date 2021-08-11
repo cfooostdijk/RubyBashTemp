@@ -7,6 +7,8 @@ USER_FILE = 'Users.txt'
 
 class Users
 
+  attr_reader :text
+
   # Public
   def login
     puts 'Write name and password'
@@ -20,9 +22,7 @@ class Users
   def create_user(name, user_list)
     return puts BLANK if name.nil?
     return puts NOT if @current_user[2] != RS
-    puts "Persist files? (yes or no)" 
-    text = gets.chomp
-    return puts "It's a Yes or No question" unless text != "yes" || text != "no"
+    self.persist
     if text .eql? "no"
       self.utemp(name, user_list)
     else
@@ -57,6 +57,13 @@ class Users
     return puts BLANK if name.nil?
     return puts NOT if @current_user[2] != RS
     user_list.delete_if {|x,*_| x .eql? "#{name}"} if @current_user[2] == RS
+  end
+
+  # Internal Use
+  def persist 
+    puts "Persist files? (yes or no)" 
+    @text = gets.chomp
+    return puts "It's a Yes or No question" unless text != "yes" || text != "no"
   end
 
   # Internal Use

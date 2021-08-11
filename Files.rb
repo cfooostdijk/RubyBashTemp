@@ -7,15 +7,15 @@ HELP = "readme.txt"
 
 class Files
 
+  attr_reader :text
+
   # Only Super and Regular Users
   def create_file(name, current_user)
     return puts "File exist" if File.exist?(name)
     return puts NOT if current_user[2] .eql? RRe
     puts "Write file content"
     content = gets.chomp
-    puts "Persist files? (yes or no)" 
-    text = gets.chomp
-    return puts "It's a Yes or No question" unless text != "yes" || text != "no"
+    self.persist
     if text .eql? "no"
       self.ftemp(name, content)
     else
@@ -55,6 +55,13 @@ class Files
   # Public
   def help
     File.foreach(HELP) { |line| puts line }
+  end
+
+  # Internal Use
+  def persist 
+    puts "Persist files? (yes or no)" 
+    @text = gets.chomp
+    return puts "It's a Yes or No question" unless text != "yes" || text != "no"
   end
 
   # Internal Use
