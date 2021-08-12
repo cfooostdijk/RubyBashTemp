@@ -13,8 +13,11 @@ class Users
   def login
     puts 'Write name and password'
     name, password = gets.split.map(&:to_s)
-    role = R_R unless password .eql? S_PW
-    role = R_S if password .eql? S_PW
+    if password .eql? S_PW
+      role = R_S
+    else
+      role = R_R
+    end
     @current_user = [name, password, role]
   end
   
