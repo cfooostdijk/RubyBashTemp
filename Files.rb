@@ -1,18 +1,18 @@
 require 'tempfile'
 require 'etc'
 
-NOT = "Not authorized"
-BLANK = "Can't be blank"
-HELP = "readme.txt"
-
 class Files
+
+  NOT = "Not authorized"
+  BLANK = "Can't be blank"
+  HELP = "readme.txt"
 
   attr_reader :text
 
   # Only Super and Regular Users
   def create_file(name, current_user)
     return puts "File exist" if File.exist?(name)
-    return puts NOT if current_user[2] .eql? RRe
+    return puts NOT if current_user[2] .eql? Ussers::R_RE
     puts "Write file content"
     content = gets.chomp
     self.persist
@@ -46,7 +46,7 @@ class Files
   # Only Super User
   def destroy_file(name, current_user)
     return puts "File doesn't exist" unless File.exist?(name)
-    return puts NOT if current_user[2] != RS
+    return puts NOT if current_user[2] != Users::R_S
     File.delete(name) 
   rescue TypeError
     puts BLANK
@@ -66,7 +66,7 @@ class Files
 
   # Internal Use
   def ftemp(name, content)
-    file = Tempfile.new(name, PATH)
+    file = Tempfile.new(name, Folders::PATH)
     file.write(content)
     file.rewind
   end

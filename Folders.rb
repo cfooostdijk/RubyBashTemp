@@ -1,15 +1,15 @@
 require 'tmpdir'
 
-PATH = Dir.pwd
-
 class Folders
+  
+  PATH = Dir.pwd
 
   attr_reader :text
  
   # Only Super User
   def create_folder(name, current_user)
     return puts "Folder exist" if Dir.exist?(name)
-    return puts NOT if current_user[2] != RS
+    return puts Files::NOT if current_user[2] != Users::R_S
     Dir.mkdir("temp") unless Dir.exist?("temp")
     self.persist
     if text .eql? "no"
@@ -18,7 +18,7 @@ class Folders
       Dir.mkdir(name)
     end
   rescue TypeError
-    puts BLANK
+    puts Files::BLANK
   end
   
   # Public
@@ -26,7 +26,7 @@ class Folders
     return puts "Folder doesn't exist" unless Dir.exist?(name)
     Dir.chdir(name)
     rescue TypeError
-      puts BLANK
+      puts Files::BLANK
   end
 
   # Public
@@ -47,10 +47,10 @@ class Folders
   # Only Super User
   def destroy_folder(name, current_user)
     return puts "Folder doesn't exist" unless Dir.exist?(name)
-    return puts NOT if current_user[2] != RS
+    return puts Files::NOT if current_user[2] != Users::R_S
     Dir.delete(name)
     rescue TypeError
-      puts BLANK
+      puts Files::BLANK
   end
 
   # Internal Use
