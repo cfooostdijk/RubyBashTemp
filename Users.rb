@@ -1,11 +1,11 @@
 class Users
 
-  S_PW= 'LittlePadawan' # Super User password
-  RE_PW = 'Read' # Read_only User password
-  R_S = 'Super' # Role Super
-  R_R = 'Regular' # Role Regular
-  R_RE = 'Read_only' # Role Read_only
-  USER_FILE = 'Users.txt' # File to keep Users
+  S_PW= 'LittlePadawan'.freeze # Super User password
+  RE_PW = 'Read'.freeze # Read_only User password
+  R_S = 'Super'.freeze # Role Super
+  R_R = 'Regular'.freeze # Role Regular
+  R_RE = 'Read_only'.freeze # Role Read_only
+  USER_FILE = 'Users.txt'.freeze # File to keep Users
   
   attr_reader :text
 

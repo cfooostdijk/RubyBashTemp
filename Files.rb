@@ -3,20 +3,20 @@ require 'etc'
 
 class Files
 
-  NOT = "Not authorized"
-  BLANK = "Can't be blank"
-  HELP = "readme.txt"
+  NOT = "Not authorized".freeze
+  BLANK = "Can't be blank".freeze
+  HELP = "readme.txt".freeze
 
-  attr_reader :text
+  attr_reader :respuesta
 
   # Only Super and Regular Users
   def create_file(name, current_user)
     return puts "File exist" if File.exist?(name)
-    return puts NOT if current_user[2] .eql? Ussers::R_RE
+    return puts NOT if current_user[2] .eql? Users::R_RE
     puts "Write file content"
     content = gets.chomp
     self.persist
-    if text .eql? "no"
+    if respuesta .eql? "no"
       self.ftemp(name, content)
     else
       File.open(name, "w") { |f| f << content }   
@@ -60,8 +60,13 @@ class Files
   # Internal Use
   def persist 
     puts "Persist files? (yes or no)" 
-    @text = gets.chomp
-    return puts "It's a Yes or No question" unless text != "yes" || text != "no"
+    text = gets.chomp
+    until text == 'yes' || text == 'no'
+      puts "It's a Yes or No question"
+      puts "Persist files? (yes or no)" 
+      text = gets.chomp
+      @respuesta = text
+    end
   end
 
   # Internal Use

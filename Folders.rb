@@ -2,9 +2,9 @@ require 'tmpdir'
 
 class Folders
   
-  PATH = Dir.pwd
+  PATH = Dir.pwd.freeze
 
-  attr_reader :text
+  attr_reader :respuesta
  
   # Only Super User
   def create_folder(name, current_user)
@@ -12,7 +12,7 @@ class Folders
     return puts Files::NOT if current_user[2] != Users::R_S
     Dir.mkdir("temp") unless Dir.exist?("temp")
     self.persist
-    if text .eql? "no"
+    if respuesta .eql? "no"
       Dir.mktmpdir(name, "./temp")
     else
       Dir.mkdir(name)
@@ -56,7 +56,12 @@ class Folders
   # Internal Use
   def persist 
     puts "Persist files? (yes or no)" 
-    @text = gets.chomp
-    return puts "It's a Yes or No question" unless text != "yes" || text != "no"
+    text = gets.chomp
+    until text == 'yes' || text == 'no'
+      puts "It's a Yes or No question"
+      puts "Persist files? (yes or no)" 
+      text = gets.chomp
+      @respuesta = text
+    end
   end
 end

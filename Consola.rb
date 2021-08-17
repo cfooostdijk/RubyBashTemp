@@ -5,6 +5,8 @@ require './Folders.rb'
 system('clear')
 
 class Console
+
+  attr_reader :users, :files, :folders
  
   def initialize
     @users = Users.new
@@ -15,7 +17,7 @@ class Console
   def menu
 
     user_list = Array.new {Array.new(3)}
-    current_user = @users.login
+    current_user = users.login
     puts
 
     loop do
@@ -27,39 +29,39 @@ class Console
 
       case input
       when 'create_file'
-        @files.create_file(name, current_user)
+        files.create_file(name, current_user)
       when 'show'
-        @files.show(name)
+        files.show(name)
       when 'metadata'
-        @files.metadata(name)
+        files.metadata(name)
       when 'destroy_file'
-        @files.destroy_file(name, current_user)
+        files.destroy_file(name, current_user)
       when 'create_folder'
-        @folders.create_folder(name, current_user)
+        folders.create_folder(name, current_user)
       when 'cd'
-        @folders.cd(name)
+        folders.cd(name)
       when 'cd..'
-        @folders.back_cd
+        folders.back_cd
       when 'ls'
-        @folders.ls
+        folders.ls
       when 'whereami'
-        @folders.where_am_i
+        folders.where_am_i
       when 'destroy_folder'
-        @folders.destroy_folder(name, current_user)
+        folders.destroy_folder(name, current_user)
       when 'create_user'
-        @users.create_user(name, user_list)
+        users.create_user(name, user_list)
       when 'update_password'
-        @users.update_password(name)
+        users.update_password(name)
       when 'ls_users'
-        @users.ls_users(user_list)
+        users.ls_users(user_list)
       when 'whoami'
-        @users.who_am_i
+        users.who_am_i
       when 'destroy_user'
-        @users.destroy_user(name, user_list)
+        users.destroy_user(name, user_list)
       when 'change_session'
-        current_user = @users.login
+        current_user = users.login
       when 'help'
-        @files.help
+        files.help
       when 'quit'
         at_exit { FileUtils.remove_entry("./temp") } if Dir.exist?("./temp")
         break
