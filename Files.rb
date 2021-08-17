@@ -1,13 +1,16 @@
 require 'tempfile'
 require 'etc'
+require './persistable.rb'
 
 class Files
+
+  include Persistable
 
   NOT = "Not authorized".freeze
   BLANK = "Can't be blank".freeze
   HELP = "readme.txt".freeze
 
-  attr_reader :respuesta
+  attr_reader :ans
 
   # Only Super and Regular Users
   def create_file(name, current_user)
@@ -15,8 +18,8 @@ class Files
     return puts NOT if current_user[2] .eql? Users::R_RE
     puts "Write file content"
     content = gets.chomp
-    self.persist
-    if respuesta .eql? "no"
+    self.persist 
+    if ans .eql? 'no'
       self.ftemp(name, content)
     else
       File.open(name, "w") { |f| f << content }   
@@ -55,18 +58,6 @@ class Files
   # Public
   def help
     File.foreach(HELP) { |line| puts line }
-  end
-
-  # Internal Use
-  def persist 
-    puts "Persist files? (yes or no)" 
-    text = gets.chomp
-    until text == 'yes' || text == 'no'
-      puts "It's a Yes or No question"
-      puts "Persist files? (yes or no)" 
-      text = gets.chomp
-      @respuesta = text
-    end
   end
 
   # Internal Use
