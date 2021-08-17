@@ -1,4 +1,8 @@
+require './persistable.rb'
+
 class Users
+
+  include Persistable
 
   S_PW= 'LittlePadawan'.freeze # Super User password
   RE_PW = 'Read'.freeze # Read_only User password
@@ -26,7 +30,7 @@ class Users
     return puts Files::BLANK if name.nil?
     return puts Files::NOT if @current_user[2] != R_S
     self.persist
-    if text .eql? "no"
+    if ans .eql? "no"
       self.utemp(name, user_list)
     else
       new_user = [name, RE_PW, R_RE]
@@ -60,13 +64,6 @@ class Users
     return puts Files::BLANK if name.nil?
     return puts Files::NOT if @current_user[2] != R_S
     user_list.delete_if {|x,*_| x .eql? "#{name}"} if @current_user[2] == R_S
-  end
-
-  # Internal Use
-  def persist 
-    puts "Persist files? (yes or no)" 
-    @text = gets.chomp
-    return puts "It's a Yes or No question" unless text != "yes" || text != "no"
   end
 
   # Internal Use
