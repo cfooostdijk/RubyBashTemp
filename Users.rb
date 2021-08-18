@@ -1,49 +1,46 @@
-require './persistable.rb'
+require './services.rb'
 
 class Users
 
-  include Persistable
-
-  S_PW= 'LittlePadawan'.freeze # Super User password
-  RE_PW = 'Read'.freeze # Read_only User password
-  R_S = 'Super'.freeze # Role Super
-  R_R = 'Regular'.freeze # Role Regular
-  R_RE = 'Read_only'.freeze # Role Read_only
-  USER_FILE = 'Users.txt'.freeze # File to keep Users
-  
+  include Services
+ 
   attr_reader :text
 
   # Public
   def login
     puts 'Write name and password'
     name, password = gets.split.map(&:to_s)
-    if password .eql? S_PW
-      role = R_S
+    if password .eql? Services::S_PW
+      role = Services::R_S
     else
-      role = R_R
+      role = Services::R_R
     end
     @current_user = [name, password, role]
   end
   
   # Only Super User
   def create_user(name, user_list)
-    return puts Files::BLANK if name.nil?
-    return puts Files::NOT if @current_user[2] != R_S
-    self.persist
+    # return puts Services::BLANK if name.nil?
+    name?(name)
+    # return puts Services::NOT if @current_user[2] != Services::R_S
+    super_user?(current_user)
+    persist
     if ans .eql? "no"
-      self.utemp(name, user_list)
+      utemp(name, user_list)
     else
-      new_user = [name, RE_PW, R_RE]
+      new_user = [name, Services::RE_PW, Services::R_RE]
       user_list = user_list.push(new_user)
-      File.open(USER_FILE, 'a+') { |f| f << "#{new_user}\n" }
+      File.open(Services::USER_FILE, 'a+') { |f| f << "#{new_user}\n" }
     end
   end
   
   # Only Super and Regular Users
   def update_password(name)
-    return puts Files::BLANK if name.nil?
-    return puts Files::NOT if @current_user[2] .eql? R_RE
-    @current_user[1] = name if @current_user[2] != R_RE
+    # return puts Services::BLANK if name.nil?
+    name?(name)
+    # return puts Services::NOT if @current_user[2] .eql? Services::R_RE
+    auth_user?(current_user)
+    @current_user[1] = name if @current_user[2] != Services::R_RE
     puts "New password: #{@current_user[1]}"
   end
 
@@ -61,16 +58,18 @@ class Users
 
   # Only Super User
   def destroy_user(name, user_list)
-    return puts Files::BLANK if name.nil?
-    return puts Files::NOT if @current_user[2] != R_S
-    user_list.delete_if {|x,*_| x .eql? "#{name}"} if @current_user[2] == R_S
+    # return puts Services::BLANK if name.nil?
+    name?(name)
+    # return puts Services::NOT if @current_user[2] != Services::R_S
+    super_user?(current_user)
+    user_list.delete_if {|x,*_| x .eql? "#{name}"} if @current_user[2] == Services::R_S
   end
 
   # Internal Use
   def utemp(name, user_list)
-    new_user = [name, 'Read', R_RE]
+    new_user = [name, 'Read', Services::R_RE]
     user_list = user_list.push(new_user)
-    file = Tempfile.new(USER_FILE, Folders::PATH)
+    file = Tempfile.new(Services::USER_FILE, Services::PATH)
     file.write(user_list)
     file.rewind
   end

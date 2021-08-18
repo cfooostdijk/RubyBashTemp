@@ -1,27 +1,26 @@
 require 'tmpdir'
-require './persistable.rb'
+require './services.rb'
 
 class Folders
 
-  include Persistable
-
-  PATH = Dir.pwd.freeze
+  include Services
 
   attr_reader :ans
  
   # Only Super User
   def create_folder(name, current_user)
     return puts "Folder exist" if Dir.exist?(name)
-    return puts Files::NOT if current_user[2] != Users::R_S
+    # return puts Services::NOT if current_user[2] != Services::R_S
+    super_user?(current_user)
     Dir.mkdir("temp") unless Dir.exist?("temp")
-    self.persist
+    persist
     if ans .eql? "no"
       Dir.mktmpdir(name, "./temp")
     else
       Dir.mkdir(name)
     end
   rescue TypeError
-    puts Files::BLANK
+    puts Services::BLANK
   end
   
   # Public
@@ -29,7 +28,7 @@ class Folders
     return puts "Folder doesn't exist" unless Dir.exist?(name)
     Dir.chdir(name)
     rescue TypeError
-      puts Files::BLANK
+      puts Services::BLANK
   end
 
   # Public
@@ -50,9 +49,10 @@ class Folders
   # Only Super User
   def destroy_folder(name, current_user)
     return puts "Folder doesn't exist" unless Dir.exist?(name)
-    return puts Files::NOT if current_user[2] != Users::R_S
+    # return puts Services::NOT if current_user[2] != Services::R_S
+    super_user?(current_user)
     Dir.delete(name)
     rescue TypeError
-      puts Files::BLANK
+      puts Services::BLANK
   end
 end

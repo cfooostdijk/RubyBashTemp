@@ -1,38 +1,32 @@
 require 'tempfile'
 require 'etc'
-require './persistable.rb'
+require './services.rb'
 
 class Files
 
-  include Persistable
-
-  NOT = "Not authorized".freeze
-  BLANK = "Can't be blank".freeze
-  HELP = "readme.txt".freeze
+  include Services
 
   attr_reader :ans
 
   # Only Super and Regular Users
   def create_file(name, current_user)
     return puts "File exist" if File.exist?(name)
-    return puts NOT if current_user[2] .eql? Users::R_RE
+    # return puts NOT if current_user[2] .eql? Services::R_RE
+    auth_user?(current_user)
     puts "Write file content"
     content = gets.chomp
-    self.persist 
-    if ans .eql? 'no'
-      self.ftemp(name, content)
-    else
-      File.open(name, "w") { |f| f << content }   
-    end
+    persist 
+    ftemp(name, content) if ans .eql? 'no'
+    File.open(name, "w") { |f| f << content } if ans .eql? 'yes'
   rescue TypeError
-    puts BLANK
+    puts Services::BLANK
   end
 
   # Public
   def show(name)
     File.foreach(name) { |line| puts line }
   rescue TypeError
-    puts BLANK
+    puts Services::BLANK
   end
 
   # Public
@@ -43,26 +37,27 @@ class Files
     uid = File.stat(name).uid
     puts "Owner name: #{ Etc.getpwuid(uid).name }"
   rescue TypeError
-    puts BLANK
+    puts Services::BLANK
   end
 
   # Only Super User
   def destroy_file(name, current_user)
     return puts "File doesn't exist" unless File.exist?(name)
-    return puts NOT if current_user[2] != Users::R_S
+    # return puts Services::NOT if current_user[2] != Services::R_S
+    super_user?(current_user)
     File.delete(name) 
   rescue TypeError
-    puts BLANK
+    puts Services::BLANK
   end
 
   # Public
   def help
-    File.foreach(HELP) { |line| puts line }
+    File.foreach(Services::HELP) { |line| puts line }
   end
 
   # Internal Use
   def ftemp(name, content)
-    file = Tempfile.new(name, Folders::PATH)
+    file = Tempfile.new(name, Services::PATH)
     file.write(content)
     file.rewind
   end
