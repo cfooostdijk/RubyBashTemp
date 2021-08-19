@@ -38,10 +38,12 @@ module Services
   def name?(name)
     if name.nil?
       puts "Can't be blank"
-      Consola::menu
+      exit
     end
   end
 end
 
 # Rescatar errores
 # Reducir lo de autenticacion de usuarios
+# Ver que si no es user, me kickea (hacer que vuelva al menu)
+# Name vacio, tiene que ir en consola

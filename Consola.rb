@@ -1,10 +1,13 @@
 require './Users.rb'
 require './Files.rb'
 require './Folders.rb'
+require './services.rb'
 
 system('clear')
 
 class Console
+
+  include Services
 
   attr_reader :users, :files, :folders
  
@@ -26,6 +29,7 @@ class Console
       
       input, name = gets.split.map(&:to_s) 
       input = input.downcase unless input.nil?
+      # name?(name)
 
       case input
       when 'create_file'
@@ -51,7 +55,7 @@ class Console
       when 'create_user'
         users.create_user(name, user_list)
       when 'update_password'
-        users.update_password(name)
+        users.update_password(name, current_user)
       when 'ls_users'
         users.ls_users(user_list)
       when 'whoami'
