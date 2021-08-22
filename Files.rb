@@ -10,13 +10,13 @@ class Files
 
   # Only Super and Regular Users
   def create_file(name, current_user)
-    return puts "File exist" if File.exist?(name)
+    return puts 'File exist' if File.exist?(name)
     auth_user?(current_user)
-    puts "Write file content"
+    puts 'Write file content'
     content = gets.chomp
     persist 
     ftemp(name, content) if ans .eql? 'no'
-    File.open(name, "w") { |f| f << content } if ans .eql? 'yes'
+    File.open(name, 'w') { |f| f << content } if ans .eql? 'yes'
   end
 
   # Only Super User

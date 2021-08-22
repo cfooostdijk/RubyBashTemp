@@ -20,10 +20,9 @@ class Users
   
   # Only Super User
   def create_user(name, user_list)
-    return puts Services::BLANK if name.nil?
     super_user?(current_user)
     persist
-    if ans .eql? "no"
+    if ans .eql? 'no'
       utemp(name, user_list)
     else
       new_user = [name, Services::RE_PW, Services::R_RE]
@@ -34,7 +33,6 @@ class Users
   
   # Only Super and Regular Users
   def update_password(name, current_user)
-    return puts Services::BLANK if name.nil?
     auth_user?(current_user)
     @current_user[1] = name if @current_user[2] != Services::R_RE
     puts "New password: #{@current_user[1]}"
@@ -54,7 +52,6 @@ class Users
 
   # Only Super User
   def destroy_user(name, user_list)
-    return puts Services::BLANK if name.nil?
     super_user?(current_user)
     user_list.delete_if {|x,*_| x .eql? "#{name}"} if @current_user[2] == Services::R_S
   end

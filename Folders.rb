@@ -9,12 +9,12 @@ class Folders
  
   # Only Super User
   def create_folder(name, current_user)
-    return puts "Folder exist" if Dir.exist?(name)
+    return puts 'Folder exist' if Dir.exist?(name)
     super_user?(current_user)
-    Dir.mkdir("temp") unless Dir.exist?("temp")
+    Dir.mkdir('temp') unless Dir.exist?('temp')
     persist
-    if ans .eql? "no"
-      Dir.mktmpdir(name, "./temp")
+    if ans .eql? 'no'
+      Dir.mktmpdir(name, './temp')
     else
       Dir.mkdir(name)
     end

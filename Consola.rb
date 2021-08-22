@@ -1,6 +1,6 @@
-require './Users.rb'
 require './Files.rb'
 require './Folders.rb'
+require './Users.rb'
 require './services.rb'
 
 system('clear')
@@ -25,7 +25,7 @@ class Console
 
     loop do
 
-      print "Consola$ "
+      print 'Consola$ '
       
       input, name = gets.split.map(&:to_s) 
       input = input.downcase unless input.nil?
@@ -59,24 +59,27 @@ class Console
         name?(name)
         folders.destroy_folder(name, current_user)
       when 'create_user'
+        name?(name)
         users.create_user(name, user_list)
       when 'update_password'
+        name?(name)
         users.update_password(name, current_user)
       when 'ls_users'
         users.ls_users(user_list)
       when 'whoami'
         users.who_am_i
       when 'destroy_user'
+        name?(name)
         users.destroy_user(name, user_list)
       when 'change_session'
         current_user = users.login
       when 'help'
         files.help
       when 'quit'
-        at_exit { FileUtils.remove_entry("./temp") } if Dir.exist?("./temp")
+        at_exit { FileUtils.remove_entry('./temp') } if Dir.exist?('./temp')
         break
       else
-        puts "Command not permitted"
+        puts 'Command not permitted'
       end
       puts
     end

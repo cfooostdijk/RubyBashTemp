@@ -5,17 +5,18 @@ module Services
   R_S = 'Super'.freeze # Role Super
   R_R = 'Regular'.freeze # Role Regular
   R_RE = 'Read_only'.freeze # Role Read_only
-  USER_FILE = 'Users.txt'.freeze # File to keep Users
+
+  PERSIST = 'Persist files? (yes or no)'.freeze
   NOT = "Not authorized".freeze
-  BLANK = "Can't be blank".freeze
+  USER_FILE = 'Users.txt'.freeze # File to keep Users
   HELP = "readme.txt".freeze
   PATH = Dir.pwd.freeze
 
   def persist 
-    puts "Persist files? (yes or no)" 
+    puts PERSIST
     txt = gets.chomp
     until txt == 'yes' || txt == 'no'
-      puts "Persist files? (yes or no)" 
+      puts PERSIST
       txt = gets.chomp
     end
      @ans = txt
@@ -23,14 +24,14 @@ module Services
 
   def super_user?(current_user)
     if current_user[2] != R_S
-      puts "Not authorized" 
+      puts NOT 
       exit
     end
   end
 
   def auth_user?(current_user)
     if current_user[2] .eql? R_RE
-      puts "Not authorized"
+      puts NOT
       exit
     end
   end
@@ -46,4 +47,4 @@ end
 # Rescatar errores
 # Reducir lo de autenticacion de usuarios
 # Ver que si no es user, me kickea (hacer que vuelva al menu)
-# Name vacio, tiene que ir en consola
+# Hacer un register para usuarios 
