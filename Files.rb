@@ -17,8 +17,6 @@ class Files
     persist 
     ftemp(name, content) if ans .eql? 'no'
     File.open(name, "w") { |f| f << content } if ans .eql? 'yes'
-  # rescue TypeError
-  #   puts Services::BLANK
   end
 
   # Only Super User
@@ -26,16 +24,12 @@ class Files
     return puts "File doesn't exist" unless File.exist?(name)
     super_user?(current_user)
     File.delete(name) 
-  # rescue TypeError
-  #   puts Services::BLANK
   end
 
   # Public
   def show(name)
     return puts "File doesn't exist" unless File.exist?(name)
     File.foreach(name) { |line| puts line }
-  # rescue Errno::ENOENT
-  #   puts Services::BLANK
   end
 
   # Public
@@ -46,8 +40,6 @@ class Files
     puts "Size file: #{ File.new(name).size } bytes"
     uid = File.stat(name).uid
     puts "Owner name: #{ Etc.getpwuid(uid).name }"
-  # rescue Errno::ENOENT
-  #   puts Services::BLANK
   end
 
   # Public

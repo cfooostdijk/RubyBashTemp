@@ -29,20 +29,25 @@ class Console
       
       input, name = gets.split.map(&:to_s) 
       input = input.downcase unless input.nil?
-      # name?(name)
 
       case input
       when 'create_file'
+        name?(name)
         files.create_file(name, current_user)
       when 'show'
+        name?(name)
         files.show(name)
       when 'metadata'
+        name?(name)
         files.metadata(name)
       when 'destroy_file'
+        name?(name)
         files.destroy_file(name, current_user)
       when 'create_folder'
+        name?(name)
         folders.create_folder(name, current_user)
       when 'cd'
+        name?(name)
         folders.cd(name)
       when 'cd..'
         folders.back_cd
@@ -51,6 +56,7 @@ class Console
       when 'whereami'
         folders.where_am_i
       when 'destroy_folder'
+        name?(name)
         folders.destroy_folder(name, current_user)
       when 'create_user'
         users.create_user(name, user_list)

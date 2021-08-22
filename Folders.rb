@@ -18,8 +18,6 @@ class Folders
     else
       Dir.mkdir(name)
     end
-  rescue TypeError
-    puts Services::BLANK
   end
   
   # Only Super User
@@ -27,18 +25,12 @@ class Folders
     return puts "Folder doesn't exist" unless Dir.exist?(name)
     super_user?(current_user)
     Dir.delete(name)
-    rescue TypeError
-      puts Services::BLANK
   end
 
   # Public
   def cd(name)
     return puts "Folder doesn't exist" unless Dir.exist?(name)
     Dir.chdir(name)
-    rescue TypeError
-      puts Services::BLANK
-    rescue Errno::ENOENT
-      puts Services::BLANK
   end
 
   # Public
